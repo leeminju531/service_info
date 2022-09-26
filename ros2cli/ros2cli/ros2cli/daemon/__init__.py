@@ -102,6 +102,10 @@ def main(*, script_name='_ros2_daemon', argv=None):
                 _print_invoked_function_name(node.count_publishers))
             server.register_function(
                 _print_invoked_function_name(node.count_subscribers))
+            server.register_function(
+                _print_invoked_function_name(node.count_clients))
+            server.register_function(
+                _print_invoked_function_name(node.count_services))
 
             shutdown = False
 
