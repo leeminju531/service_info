@@ -2674,6 +2674,21 @@ rmw_count_subscribers(
   const char * topic_name,
   size_t * count);
 
+RMW_PUBLIC
+RMW_WARN_UNUSED
+rmw_ret_t
+rmw_count_clients(
+  const rmw_node_t * node,
+  const char * service_name,
+  size_t * count);
+
+RMW_PUBLIC
+RMW_WARN_UNUSED
+rmw_ret_t
+rmw_count_services(
+  const rmw_node_t * node,
+  const char * service_name,
+  size_t * count);
 /// Get the unique identifier (gid) of a publisher.
 /**
  * <hr>
