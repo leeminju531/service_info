@@ -118,6 +118,12 @@ public:
    * \return Python list of tuples where each tuple contains the two strings:
    *   the node name and node namespace
    */
+  size_t
+  get_count_clients(const char * service_name);
+  
+  size_t
+  get_count_services(const char * service_name);
+  
   py::list
   get_node_names_and_namespaces();
 

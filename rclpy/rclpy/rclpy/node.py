@@ -1849,7 +1849,7 @@ class Node:
         :param topic_name: the topic_name on which to count the number of publishers.
         :return: the number of publishers on the topic.
         """
-        print('count publisher called')
+        print('rclpy:: count publisher called\n')
         with self.handle:
             return self._count_publishers_or_subscribers(
                 topic_name, self.handle.get_count_publishers)
@@ -1869,23 +1869,23 @@ class Node:
             return self._count_publishers_or_subscribers(
                 topic_name, self.handle.get_count_subscribers)
 
-    # # my implementation
-    # def _count_clients_or_servers(self, service_name, func):
-    #     fq_service_name = expand_topic_name(service_name, self.get_name(), self.get_namespace()) # service는 없는데
-    #     validate_full_topic_name(fq_service_name)
-    #     with self.handle:
-    #         return func(fq_service_name)  # 여기까진 괜찮을 듯. -> 근데 기능은 겹침
+    # my implementation
+    def _count_clients_or_servers(self, service_name, func):
+        fq_service_name = expand_topic_name(service_name, self.get_name(), self.get_namespace()) # service는 없는데
+        validate_full_topic_name(fq_service_name,is_service=True)
+        with self.handle:
+            return func(fq_service_name)  # 여기까진 괜찮을 듯. -> 근데 기능은 겹침
 
-    # # my implementation
-    # def count_clients(self, service_name: str) -> int:
-    #     with self.handle:
-    #         return self._count_clients_or_servers(
-    #             service_name, self.handle.get_count_clients)
-    # # my implementation
-    # def count_services(self, service_name: str) -> int:
-    #     with self.handle:
-    #         return self._count_clients_or_servers(
-    #             service_name, self.handle.get_count_services)
+    # my implementation
+    def count_clients(self, service_name: str) -> int:
+        with self.handle:
+            return self._count_clients_or_servers(
+                service_name, self.handle.get_count_clients)
+    # my implementation
+    def count_services(self, service_name: str) -> int:
+        with self.handle:
+            return self._count_clients_or_servers(
+                service_name, self.handle.get_count_services)
 
 
     def _get_info_by_topic(
