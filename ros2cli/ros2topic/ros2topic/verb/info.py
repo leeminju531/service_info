@@ -38,6 +38,8 @@ class InfoVerb(VerbExtension):
 
     def main(self, *, args):
         with NodeStrategy(args) as node:
+            print("info args : ",args)
+            print("node:",node)
             topic_names_and_types = get_topic_names_and_types(
                 node=node, include_hidden_topics=True)
             topic_name = args.topic_name
@@ -47,7 +49,7 @@ class InfoVerb(VerbExtension):
                     break
             else:
                 return "Unknown topic '%s'" % topic_name
-
+            
             line_end = '\n'
             if args.verbose:
                 line_end = '\n\n'
@@ -55,7 +57,7 @@ class InfoVerb(VerbExtension):
             type_str = topic_types[0] if len(topic_types) == 1 else topic_types
             print('Type: %s' % type_str, end=line_end)
 
-            print('Publisher count: %d' %
+            print('ros2cli::Publisher count: %d' %
                   node.count_publishers(topic_name), end=line_end)
             if args.verbose:
                 try:
@@ -64,7 +66,7 @@ class InfoVerb(VerbExtension):
                 except NotImplementedError as e:
                     return str(e)
 
-            print('Subscription count: %d' %
+            print('ros2cli::Subscription count: %d' %
                   node.count_subscribers(topic_name), end=line_end)
             if args.verbose:
                 try:
