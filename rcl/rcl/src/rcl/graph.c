@@ -424,6 +424,7 @@ rcl_count_publishers(
   const char * topic_name,
   size_t * count)
 {
+  printf("rcl:: called rcl_count_publishers\n");
   if (!rcl_node_is_valid(node)) {
     return RCL_RET_NODE_INVALID;  // error already set
   }
@@ -443,6 +444,7 @@ rcl_count_subscribers(
   const char * topic_name,
   size_t * count)
 {
+  printf("called rcl_count_subscribers\n");
   if (!rcl_node_is_valid(node)) {
     return RCL_RET_NODE_INVALID;  // error already set
   }
@@ -455,6 +457,50 @@ rcl_count_subscribers(
   rmw_ret_t rmw_ret = rmw_count_subscribers(rcl_node_get_rmw_handle(node), topic_name, count);
   return rcl_convert_rmw_ret_to_rcl_ret(rmw_ret);
 }
+
+rcl_ret_t
+rcl_count_clients(
+  const rcl_node_t * node,
+  const char * service_name,
+  size_t * count)
+{
+  printf("rcl::rcl_count_clients called\n");
+  if (!rcl_node_is_valid(node)) {
+    return RCL_RET_NODE_INVALID;  // error already set
+  }
+  const rcl_node_options_t * node_options = rcl_node_get_options(node);
+  if (!node_options) {
+    return RCL_RET_NODE_INVALID;  // shouldn't happen, but error is already set if so
+  }
+  RCL_CHECK_ARGUMENT_FOR_NULL(service_name, RCL_RET_INVALID_ARGUMENT);
+  RCL_CHECK_ARGUMENT_FOR_NULL(count, RCL_RET_INVALID_ARGUMENT);
+  rmw_ret_t rmw_ret = rmw_count_clients(rcl_node_get_rmw_handle(node), service_name, count);
+  return rcl_convert_rmw_ret_to_rcl_ret(rmw_ret);
+}
+
+rcl_ret_t
+rcl_count_services(
+  const rcl_node_t * node,
+  const char * service_name,
+  size_t * count)
+{
+  printf("rcl::rcl_count_services called\n");
+  if (!rcl_node_is_valid(node)) {
+    return RCL_RET_NODE_INVALID;  // error already set
+  }
+  const rcl_node_options_t * node_options = rcl_node_get_options(node);
+  if (!node_options) {
+    return RCL_RET_NODE_INVALID;  // shouldn't happen, but error is already set if so
+  }
+  RCL_CHECK_ARGUMENT_FOR_NULL(service_name, RCL_RET_INVALID_ARGUMENT);
+  RCL_CHECK_ARGUMENT_FOR_NULL(count, RCL_RET_INVALID_ARGUMENT);
+  rmw_ret_t rmw_ret = rmw_count_services(rcl_node_get_rmw_handle(node), service_name, count);
+  return rcl_convert_rmw_ret_to_rcl_ret(rmw_ret);
+}
+
+
+
+
 
 typedef rcl_ret_t (* count_entities_func_t)(
   const rcl_node_t * node,
@@ -600,6 +646,7 @@ rcl_wait_for_publishers(
   rcutils_duration_value_t timeout,
   bool * success)
 {
+  printf("called rcl::rcl_wait_for_publishers\n");
   return _rcl_wait_for_entities(
     node,
     allocator,
@@ -609,8 +656,8 @@ rcl_wait_for_publishers(
     success,
     rcl_count_publishers);
 }
-
-rcl_ret_t
+// 이 기능을 누가, 언제 호출하지? -> ros2cli topic에서는 적어도 이거 호출하지 않았음
+rcl_ret_t 
 rcl_wait_for_subscribers(
   const rcl_node_t * node,
   rcl_allocator_t * allocator,
@@ -619,6 +666,7 @@ rcl_wait_for_subscribers(
   rcutils_duration_value_t timeout,
   bool * success)
 {
+  printf("called rcl::rcl_wait_for_subscribers\n");
   return _rcl_wait_for_entities(
     node,
     allocator,

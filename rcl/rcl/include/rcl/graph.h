@@ -581,6 +581,23 @@ rcl_count_subscribers(
   const rcl_node_t * node,
   const char * topic_name,
   size_t * count);
+  
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_count_clients(
+  const rcl_node_t * node,
+  const char * service_name,
+  size_t * count);
+
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_count_services(
+  const rcl_node_t * node,
+  const char * service_name,
+  size_t * count);
+
 
 /// Wait for there to be a specified number of publishers on a given topic.
 /**
@@ -626,6 +643,7 @@ rcl_count_subscribers(
  * \return #RCL_RET_TIMEOUT if a timeout occurs before the number of publishers is detected, or
  * \return #RCL_RET_ERROR if an unspecified error occurred.
  */
+
 RCL_PUBLIC
 RCL_WARN_UNUSED
 rcl_ret_t
