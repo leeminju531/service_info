@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(rclpy)
-
+set(CMAKE_MODULE_PATH "/home/louis/ros_cli/install/rmw/share/rmw/cmake;${CMAKE_MODULE_PATH}")
 # Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
