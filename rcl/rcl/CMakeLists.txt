@@ -120,12 +120,12 @@ ament_export_dependencies(${RCL_LOGGING_IMPL})
 ament_export_dependencies(rosidl_runtime_c)
 ament_export_dependencies(tracetools)
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+# if(BUILD_TESTING)
+#   find_package(ament_lint_auto REQUIRED)
+#   ament_lint_auto_find_test_dependencies()
 
-  add_subdirectory(test)
-endif()
+#   add_subdirectory(test)
+# endif()
 
 ament_package(CONFIG_EXTRAS "rcl-extras.cmake")
 
