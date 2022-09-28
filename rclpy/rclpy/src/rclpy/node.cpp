@@ -91,7 +91,7 @@ size_t
 Node::get_count_publishers(const char * topic_name)
 {
   size_t count = 0;
-  printf("rclpy get_count_publishers:: called rcl_count_publishers \n");
+  printf("rclpy Node::get_count_publishers:: called \n");
   rcl_ret_t ret = rcl_count_publishers(rcl_node_.get(), topic_name, &count);
   if (RCL_RET_OK != ret) {
     throw RCLError("Error in rcl_count_publishers");
@@ -104,8 +104,9 @@ size_t
 Node::get_count_subscribers(const char * topic_name)
 {
   size_t count = 0;
+  printf("rclpy Node::get_count_subscribers:: called\n ");
   rcl_ret_t ret = rcl_count_subscribers(rcl_node_.get(), topic_name, &count);
-  printf("rclpy get_count_subscribers:: called rcl_count_subscribers ");
+  
   if (RCL_RET_OK != ret) {
     throw RCLError("Error in rcl_count_subscribers");
   }
@@ -116,7 +117,7 @@ size_t
 Node::get_count_clients(const char * service_name)
 {
   size_t count = 0;
-  printf("rclpy Node::get_count_clients:: called ");
+  printf("rclpy Node::get_count_clients:: called\n ");
   rcl_ret_t ret = rcl_count_clients(rcl_node_.get(), service_name, &count);
   if (RCL_RET_OK != ret) {
     throw RCLError("Error in rcl_count_clients");
@@ -128,7 +129,7 @@ size_t
 Node::get_count_services(const char * service_name)
 {
   size_t count = 0;
-  printf("rclpy Node::get_count_services:: called ");
+  printf("rclpy Node::get_count_services:: called\n ");
   rcl_ret_t ret = rcl_count_services(rcl_node_.get(), service_name, &count);
   if (RCL_RET_OK != ret) {
     throw RCLError("Error in rcl_count_services");
