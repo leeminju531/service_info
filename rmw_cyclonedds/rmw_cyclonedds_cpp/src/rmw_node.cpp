@@ -4947,7 +4947,7 @@ extern "C" rmw_ret_t rmw_count_services(
 
   auto common_context = &node->context->impl->common;
   const std::string mangled_topic_name = make_fqtopic(ROS_TOPIC_PREFIX, service_name, "", false);
-  *count = 2;
+
   return common_context->graph_cache.get_reader_count(service_name, count);
 }
 
