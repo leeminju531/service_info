@@ -4821,8 +4821,11 @@ extern "C" rmw_ret_t rmw_service_server_is_available(
     RMW_SET_ERROR_MSG("rmw_service_server_is_available: failed to get topic names");
     return RMW_RET_ERROR;
   }
-  printf("rmw::rmw_service_server_is_available:: pub_topic_name: %s\n",pub_topic_name);
-  printf("rmw::rmw_service_server_is_available:: sub_topic_name: %s\n",sub_topic_name);
+  std::cout << "rmw::rmw_service_server_is_available:: pub_topic_name: "<<pub_topic_name << std::endl;
+  std::cout << "rmw::rmw_service_server_is_available:: sub_topic_name: "<<sub_topic_name << std::endl;
+  
+  // printf("rmw::rmw_service_server_is_available:: pub_topic_name: %s\n",pub_topic_name.c_str());
+  // printf("rmw::rmw_service_server_is_available:: sub_topic_name: %s\n",sub_topic_name.c_str());
   size_t number_of_request_subscribers = 0; // 이게 request가 될 수 있는 이유가 뭘까? 
   rmw_ret_t ret =
     common_context->graph_cache.get_reader_count(pub_topic_name, &number_of_request_subscribers);
@@ -4860,13 +4863,13 @@ extern "C" rmw_ret_t rmw_count_publishers(
     const char * reason = rmw_full_topic_name_validation_result_string(validation_result);
     RMW_SET_ERROR_MSG_WITH_FORMAT_STRING("topic_name argument is invalid: %s", reason);
     return RMW_RET_INVALID_ARGUMENT;
-  }
-  printf("rmw::rmw_count_publishers full topic_name : %s\n",topic_name);
+  } 
   RMW_CHECK_ARGUMENT_FOR_NULL(count, RMW_RET_INVALID_ARGUMENT);
 
   auto common_context = &node->context->impl->common;
   const std::string mangled_topic_name = make_fqtopic(ROS_TOPIC_PREFIX, topic_name, "", false);
-  printf("rmw::rmw_count_publishers mangled_topic_name: %s\n",mangled_topic_name);
+  std::cout << "rmw::rmw_count_publishers topic_name(just input) :" << topic_name << std::endl;
+  std::cout << "rmw::rmw_count_publishers mangled_topic_name: "<< mangled_topic_name << std::endl;
   return common_context->graph_cache.get_writer_count(mangled_topic_name, count);
 }
 
@@ -4895,6 +4898,8 @@ extern "C" rmw_ret_t rmw_count_subscribers(
 
   auto common_context = &node->context->impl->common;
   const std::string mangled_topic_name = make_fqtopic(ROS_TOPIC_PREFIX, topic_name, "", false);
+  std::cout << "rmw::rmw_count_subscribers topic_name(just input) :" << topic_name << std::endl;
+  std::cout << "rmw::rmw_count_subscribers mangled_topic_name: "<< mangled_topic_name << std::endl;
   return common_context->graph_cache.get_reader_count(mangled_topic_name, count);
 }
 extern "C" rmw_ret_t rmw_count_clients(
@@ -4922,10 +4927,12 @@ extern "C" rmw_ret_t rmw_count_clients(
   RMW_CHECK_ARGUMENT_FOR_NULL(count, RMW_RET_INVALID_ARGUMENT);
   
   auto common_context = &node->context->impl->common;
-  const std::string mangled_topic_name = make_fqtopic(ROS_TOPIC_PREFIX, service_name, "", false);
-  printf("rmw::rmw_count_clients service_name(just input): %s\n",service_name);
-  printf("rmw::rmw_count_clients mangled_topic_name: %s\n",mangled_topic_name);
-  return common_context->graph_cache.get_reader_count(mangled_topic_name, count);
+  // const std::string mangled_topic_name = make_fqtopic(ROS_TOPIC_PREFIX, service_name, "", false);
+  const std::string mangled_service_name = make_fqtopic(ROS_SERVICE_RESPONSE_PREFIX, service_name, "Reply", false); // writer
+  std::cout << "rmw::rmw_count_clients service_name(just input): "<<service_name<<std::endl;
+  std::cout<< "rmw::rmw_count_clients mangled_topic_name: " << mangled_service_name << std::endl;
+
+  return common_context->graph_cache.get_reader_count(mangled_service_name, count);
 }
 extern "C" rmw_ret_t rmw_count_services(
   const rmw_node_t * node,
@@ -4952,10 +4959,16 @@ extern "C" rmw_ret_t rmw_count_services(
   RMW_CHECK_ARGUMENT_FOR_NULL(count, RMW_RET_INVALID_ARGUMENT);
 
   auto common_context = &node->context->impl->common;
-  const std::string mangled_topic_name = make_fqtopic(ROS_TOPIC_PREFIX, service_name, "", false);
-  printf("rmw::rmw_count_services service_name(just input): %s\n",service_name);
-  printf("rmw::rmw_count_services mangled_topic_name: %s\n",mangled_topic_name);
-  return common_context->graph_cache.get_writer_count(mangled_topic_name, count);
+  // const std::string mangled_topic_name = make_fqtopic(ROS_TOPIC_PREFIX, service_name, "", false);
+  // const std::string mangled_service_name = make_fqtopic(ROS_SERVICE_REQUESTER_PREFIX, service_name, "Request", false); // reader
+  const std::string mangled_service_name = make_fqtopic(ROS_SERVICE_RESPONSE_PREFIX, service_name, "Reply", false); // writer
+  
+  std::cout << "rmw::rmw_count_services service_name(just input): "<<service_name<<std::endl;
+  std::cout<< "rmw::rmw_count_services mangled_topic_name: " << mangled_service_name << std::endl;
+ 
+  // printf("rmw::rmw_count_services service_name(just input): %s\n",service_name);
+  // printf("rmw::rmw_count_services mangled_topic_name: %s\n",mangled_topic_name);
+  return common_context->graph_cache.get_writer_count(mangled_service_name, count);
 }
 
 
