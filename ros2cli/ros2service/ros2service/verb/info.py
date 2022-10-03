@@ -20,19 +20,19 @@ from ros2topic.verb import VerbExtension
 
 
 class InfoVerb(VerbExtension):
-    """Print information about a topic."""
+    """Print information about a service."""
 
     def add_arguments(self, parser, cli_name):
         add_strategy_node_arguments(parser)
         arg = parser.add_argument(
-            'topic_name',
-            help="Name of the ROS topic to get info (e.g. '/chatter')")
+            'service_name',
+            help="Name of the ROS topic to get info (e.g. '/add_two_ints')")
         parser.add_argument(
             '--verbose',
             '-v',
             action='store_true',
-            help='Prints detailed information like the node name, node namespace, topic type, '
-                 'GUID and QoS Profile of the publishers and subscribers to this topic')
+            help='Prints detailed information like the node name, node namespace, service type, '
+                 'GUID and QoS Profile of the clients and servers to this service')
         arg.completer = TopicNameCompleter(
             include_hidden_topics_key='include_hidden_topics')
 
@@ -58,12 +58,12 @@ class InfoVerb(VerbExtension):
             type_str = service_types[0] if len(service_types) == 1 else service_types
             print('Type: %s' % type_str, end=line_end)
 
-            print('ros2cli::count_clients called: %d' %
+            print('ros2cli::Services count: %d' %
                   node.count_clients(service_name), end=line_end)
             if args.verbose:
-                pass
+                print('ros2 service -v args not implemented yet',end=line_end)
 
-            print('ros2cli::count_services called: %d' %
+            print('ros2cli::Clients count: %d' %
                   node.count_services(service_name), end=line_end)
             if args.verbose:
-                pass
+                print('ros2 service -v args not implemented yet',end=line_end)
